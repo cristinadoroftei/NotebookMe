@@ -13,7 +13,7 @@ import java.util.List;
 public class NoteDatabase extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 2;
-    private static final String DATABASE_NAME = "notesDbs1";
+    private static final String DATABASE_NAME = "notesDbs3";
     private static final String DATABASE_TABLE = "notesTable1";
 
     //columns name for database table
@@ -33,7 +33,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
     //of the NoteDatabase is created
     public void onCreate(SQLiteDatabase db) {
         // CREATE TABLE tablename(id INT PRIMARY KEY, title TEXT, content TEXT, date TEXT, time TEXT)
-        String query = "CREATE TABLE " + DATABASE_TABLE + "(" + KEY_ID + "INT PRIMARY KEY," +
+        String query = "CREATE TABLE " + DATABASE_TABLE + "(" + KEY_ID + " " + " INTEGER PRIMARY KEY," +
                 KEY_TITLE + " TEXT," +
                 KEY_CONTENT + " TEXT,"+
                 KEY_DATE + " TEXT,"+
@@ -67,14 +67,16 @@ public class NoteDatabase extends SQLiteOpenHelper {
         return ID;
     }
 
-    public long saveNote(Note note){
+    public void saveNote(Note note){
         SQLiteDatabase db = this.getWritableDatabase();
         //collect the data
         ContentValues c = new ContentValues();
         Log.d("Edited", "Edited title: ->"+ note.getTitle() + "\n ID-> "+ note.getID());
+
         c.put(KEY_TITLE, note.getTitle());
         c.put(KEY_CONTENT, note.getContent());
-        return db.update(DATABASE_TABLE,c,KEY_ID+"=" + note.getID(),new String[]{String.valueOf(note.getID())});
+        db.update(DATABASE_TABLE,c,KEY_ID+"=" + note.getID(),null);
+        Log.d("It arrived here", "yes");
     }
 
     public Note getNote(long id){
@@ -104,12 +106,14 @@ public class NoteDatabase extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 Note note = new Note();
+                long id = cursor.getLong(0);
                 note.setID(cursor.getLong(0));
                 note.setTitle(cursor.getString(1));
                 note.setContent(cursor.getString(2));
                 note.setDate(cursor.getString(3));
                 note.setTime(cursor.getString(4));
 
+                Log.d("Titles in getNotes:", String.valueOf(id));
                 allNotes.add(note);
             }while (cursor.moveToNext());
         }

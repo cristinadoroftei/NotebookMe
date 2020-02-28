@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         NoteDatabase db = new NoteDatabase(this);
         notes = db.getNotes();
+
+        for (Note note : notes) {
+            Log.d("Note with id:", String.valueOf(note.getID()));
+        }
 
         recyclerView = findViewById(R.id.listOfNotes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

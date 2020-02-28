@@ -99,12 +99,12 @@ public class AddNote extends AppCompatActivity {
                 editingNote.setTitle(noteTitle.getText().toString());
                 editingNote.setContent(noteDetails.getText().toString());
                 NoteDatabase db = new NoteDatabase(this);
-                long id = db.saveNote(editingNote);
-                if(id == editingNote.getID())
-                    Toast.makeText(this,"Note updated", Toast.LENGTH_SHORT).show();
-                else {
-                    Toast.makeText(this,"error!!!", Toast.LENGTH_SHORT).show();
-                }
+                db.saveNote(editingNote);
+//                if(id == editingNote.getID())
+//                    Toast.makeText(this,"Note updated", Toast.LENGTH_SHORT).show();
+//                else {
+//                    Toast.makeText(this,"error!!!", Toast.LENGTH_SHORT).show();
+//                }
                 goToMain();
             }
             else {
